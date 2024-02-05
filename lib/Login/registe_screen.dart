@@ -56,8 +56,7 @@ class RegisterScreen extends StatelessWidget {
                       onpressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => CustomBottomBar()),
+                          MaterialPageRoute(builder: (context) => YourWidget()),
                         );
                       },
                     ),

@@ -4,126 +4,100 @@ import 'package:medical_app/pages/searchAi_page.dart';
 import 'package:medical_app/pages/setting_page.dart';
 import 'package:medical_app/style/app_style.dart';
 import '../pages/home_page.dart';
+import 'package:motion_tab_bar_v2/motion-badge.widget.dart';
+import 'package:motion_tab_bar_v2/motion-tab-bar.dart';
+import 'package:motion_tab_bar_v2/motion-tab-controller.dart';
+import 'package:motion_tab_bar_v2/motion-tab-item.dart';
 
-class CustomBottomBar extends StatefulWidget {
-  const CustomBottomBar({Key? key}) : super(key: key);
-
+class YourWidget extends StatefulWidget {
   @override
-  State<CustomBottomBar> createState() => _CustomBottomBarState();
+  _YourWidgetState createState() => _YourWidgetState();
 }
 
-class _CustomBottomBarState extends State<CustomBottomBar> {
-  int _selectedIndex = 0;
+class _YourWidgetState extends State<YourWidget> with TickerProviderStateMixin {
+  MotionTabBarController? _motionTabBarController;
 
-  static List<Widget> _widgetOptions = <Widget>[
-    HomePage(),
-    SchedulePage(),
-    Text("report"),
-    SettingsPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _motionTabBarController = MotionTabBarController(
+      initialIndex: 1,
+      length: 4,
+      vsync: this,
+    );
+  }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void dispose() {
+    _motionTabBarController!.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(
-            child: Center(
-              child: _widgetOptions.elementAt(_selectedIndex),
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10,
-                    spreadRadius: 5,
-                  ),
-                ],
-              ),
-              child: BottomNavigationBar(
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.transparent,
-                elevation: 0,
-                items: <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.home,
-                      size: 35,
-                    ),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.event,
-                      size: 35,
-                    ),
-                    label: 'Schedule',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.report,
-                      size: 35,
-                    ),
-                    label: 'Report',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(
-                      Icons.settings,
-                      size: 35,
-                    ),
-                    label: 'Settings',
-                  ),
-                ],
-                currentIndex: _selectedIndex,
-                selectedItemColor: Colors.blue,
-                unselectedItemColor: Colors.grey,
-                onTap: _onItemTapped,
-              ),
-            ),
-          ),
-          Positioned(
-            left: MediaQuery.of(context).size.width / 2 -
-                30, // تحديد الموقع الأفقي للعدسة
-            bottom: 40, // تحديد الموقع العمودي للعدسة
-            child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ImageSelectionPage()),
-                );
-              },
-              child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 255, 255, 255),
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 10,
-                        spreadRadius: 5,
-                      ),
-                    ],
-                  ),
-                  child: Image.asset("assets/images/ideas.png")),
-            ),
-          ),
-        ],
-      ),
+      body: buildBody(),
+      bottomNavigationBar: buildBottomNavigationBar(),
+    );
+  }
+
+  Widget buildBody() {
+    return TabBarView(
+      physics: NeverScrollableScrollPhysics(),
+      controller: _motionTabBarController,
+      children: <Widget>[
+        ImageSelectionPage(),
+        HomePage(),
+        SchedulePage(),
+        SettingsPage(),
+      ],
+    );
+  }
+
+  Widget buildBottomNavigationBar() {
+    return MotionTabBar(
+      controller: _motionTabBarController,
+      initialSelectedTab: "Home",
+      labels: const [
+        "api",
+        "Home",
+        "Profile",
+        "Settings",
+      ],
+      icons: const [
+        Icons.api,
+        Icons.home,
+        Icons.people_alt,
+        Icons.settings,
+      ],
+      badges: [
+        const MotionBadgeWidget(
+            text: '', textColor: Colors.white, color: Colors.red, size: 18),
+        Container(
+          color: Colors.black,
+          padding: const EdgeInsets.all(2),
+          child: const Text('1',
+              style: TextStyle(fontSize: 14, color: Colors.white)),
+        ),
+        null,
+        const MotionBadgeWidget(
+            isIndicator: true, color: Colors.red, size: 5, show: true),
+      ],
+      tabSize: 50,
+      tabBarHeight: 55,
+      textStyle: const TextStyle(
+          fontSize: 12, color: Colors.black, fontWeight: FontWeight.w500),
+      tabIconColor: Colors.blue[600],
+      tabIconSize: 28.0,
+      tabIconSelectedSize: 26.0,
+      tabSelectedColor: Colors.blue[600],
+      tabIconSelectedColor: Colors.white,
+      tabBarColor: Color.fromARGB(255, 236, 231, 231),
+      onTabItemSelected: (int value) {
+        setState(() {
+          _motionTabBarController!.index = value;
+        });
+      },
     );
   }
 }

@@ -18,97 +18,104 @@ class _SchedulePageState extends State<SchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                "Schedule",
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Select Appointment Date',
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              // Calendar Widget or Date Picker can be placed here to select date
-
-              Text(
-                'Available Time Slots',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 10),
-
-              // List of available time slots
-              _buildTimeSlot('09:00 AM - 10:00 AM'),
-              _buildTimeSlot('10:00 AM - 11:00 AM'),
-              _buildTimeSlot('11:00 AM - 12:00 PM'),
-              _buildTimeSlot('01:00 PM - 02:00 PM'),
-              _buildTimeSlot('02:00 PM - 03:00 PM'),
-              _buildTimeSlot('03:00 PM - 04:00 PM'),
-              // Add more time slots as needed
-
-              SizedBox(height: 30),
-
-              if (_selectedTimeSlot != null) ...[
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage('assets/images/bg.jpg'), // تحديد صورة الخلفية
+          fit: BoxFit.cover, // تغطية الشاشة بالصورة
+        )),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
                 Text(
-                  'Booking Details',
+                  "Schedule",
+                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Text(
+                  'Select Appointment Date',
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                // Calendar Widget or Date Picker can be placed here to select date
+
+                Text(
+                  'Available Time Slots',
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 20),
-                // TextFields for user input
-                TextField(
-                  controller: _nameController,
-                  decoration: InputDecoration(
-                    labelText: 'Name',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: _phoneNumberController,
-                  keyboardType: TextInputType.phone,
-                  decoration: InputDecoration(
-                    labelText: 'Phone Number',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 20),
-                TextField(
-                  controller: _additionalNotesController,
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                    labelText: 'Additional Notes',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(height: 20),
-              ],
+                SizedBox(height: 10),
 
-              Button_Style(
-                title: "Book Appointment",
-                onpressed: () {
-                  _bookAppointment(context);
-                },
-              ),
-              SizedBox(
-                height: 100,
-              )
-            ],
+                // List of available time slots
+                _buildTimeSlot('09:00 AM - 10:00 AM'),
+                _buildTimeSlot('10:00 AM - 11:00 AM'),
+                _buildTimeSlot('11:00 AM - 12:00 PM'),
+                _buildTimeSlot('01:00 PM - 02:00 PM'),
+                _buildTimeSlot('02:00 PM - 03:00 PM'),
+                _buildTimeSlot('03:00 PM - 04:00 PM'),
+                // Add more time slots as needed
+
+                SizedBox(height: 30),
+
+                if (_selectedTimeSlot != null) ...[
+                  Text(
+                    'Booking Details',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  // TextFields for user input
+                  TextField(
+                    controller: _nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Name',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextField(
+                    controller: _phoneNumberController,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      labelText: 'Phone Number',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  TextField(
+                    controller: _additionalNotesController,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      labelText: 'Additional Notes',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+
+                Button_Style(
+                  title: "Book Appointment",
+                  onpressed: () {
+                    _bookAppointment(context);
+                  },
+                ),
+                SizedBox(
+                  height: 200,
+                )
+              ],
+            ),
           ),
         ),
       ),

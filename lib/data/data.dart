@@ -59,11 +59,4 @@ List<Appointments> upcomingAppointmentsList = [
     subTitle: "Depression",
     color: const Color(0xff1C6BA4),
   ),
-  Appointments(
-    date: "12\nTue",
-    time: DateFormat('hh:mm a').format(DateTime.now()),
-    title: "Dr. Mim Akhter",
-    subTitle: "Depression",
-    color: const Color(0xff1C6BA4),
-  ),
 ];

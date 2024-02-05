@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:medical_app/Login/registe_screen.dart';
+import 'package:medical_app/pages/PortfolioScreen.dart';
 import 'package:medical_app/style/app_style.dart';
 import '../data/data.dart';
 import '../size_config.dart';
@@ -12,28 +14,35 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      body: ListView(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: SizeConfig.blockSizeHorizontal! * 7,
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+          image: AssetImage('assets/images/bg.jpg'), // تحديد صورة الخلفية
+          fit: BoxFit.cover, // تغطية الشاشة بالصورة
+        )),
+        child: ListView(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: SizeConfig.blockSizeHorizontal! * 7,
+              ),
+              child: Column(
+                children: const [
+                  // User Info Area .
+                  UserInfo(),
+                  // SearchMedical Area.
+                  SearchMedical(),
+                  // Services Area .
+                  Services(),
+                  // GetBestMedicalService
+                  GetBestMedicalService(),
+                ],
+              ),
             ),
-            child: Column(
-              children: const [
-                // User Info Area .
-                UserInfo(),
-                // SearchMedical Area.
-                SearchMedical(),
-                // Services Area .
-                Services(),
-                // GetBestMedicalService
-                GetBestMedicalService(),
-              ],
-            ),
-          ),
-          // Upcoming Appointments
-          const UpcomingAppointments()
-        ],
+            // Upcoming Appointments
+            const UpcomingAppointments()
+          ],
+        ),
       ),
     );
   }
@@ -258,12 +267,18 @@ class UpcomingAppointments extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Padding(
-            padding: const EdgeInsets.only(left: 28),
+            padding: const EdgeInsets.only(left: 39),
             child: Row(
               children: upcomingAppointmentsList
                   .map(
                     (e) => CupertinoButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PortfolioScreen()),
+                        );
+                      },
                       padding: const EdgeInsets.only(right: 12),
                       child: Container(
                         height: SizeConfig.blockSizeVertical! * 17,
