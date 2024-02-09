@@ -154,15 +154,32 @@ class Services extends StatelessWidget {
                 (e) => CupertinoButton(
                   onPressed: () {},
                   padding: EdgeInsets.zero,
-                  child: Container(
-                    width: SizeConfig.blockSizeHorizontal! * 17,
-                    height: SizeConfig.blockSizeHorizontal! * 17,
-                    decoration: BoxDecoration(
-                      color: e.color,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                      child: SvgPicture.asset(e.image),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => e.content(context)),
+                      );
+                    },
+                    child: Container(
+                      width: SizeConfig.blockSizeHorizontal! * 17,
+                      height: SizeConfig.blockSizeHorizontal! * 17,
+                      decoration: BoxDecoration(
+                        color: e.color,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Column(
+                          children: [
+                            SvgPicture.asset(e.image),
+                            Text(
+                              e.title,
+                              style: TextStyle(fontSize: 13),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ),
