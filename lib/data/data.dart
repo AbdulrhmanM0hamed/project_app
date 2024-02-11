@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:medical_app/Services/doctor_content.dart';
 import 'package:medical_app/Services/pharmacy.dart';
+import 'package:medical_app/pages/searchAi_page.dart';
 
 class Services {
   final String image;
@@ -40,8 +41,8 @@ List<Services> servicesList = [
   Services(
     image: 'assets/icons/noun-corona.svg',
     color: const Color(0xffF2E3E9),
-    title: "ٌone more",
-    content: (BuildContext context) => DoctorContent(),
+    title: "ٌAi Scanning",
+    content: (BuildContext context) => AiScanning(),
   ),
 ];
 

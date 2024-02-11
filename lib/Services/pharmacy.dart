@@ -59,15 +59,18 @@ class _MapScreenState extends State<MapScreen> {
         ),
         markers: markers,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // الحصول على موقع المستخدم الحالي وتنفيذ البحث عن الصيدليات
-          LatLng userLocation = LatLng(37.43296265331129,
-              -122.08832357078792); // استبدل بموقع المستخدم الفعلي
-          _searchNearbyPharmacies(userLocation);
-        },
-        child: Icon(
-          Icons.search,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40.0),
+        child: FloatingActionButton(
+          onPressed: () {
+            // الحصول على موقع المستخدم الحالي وتنفيذ البحث عن الصيدليات
+            LatLng userLocation = LatLng(37.43296265331129,
+                -122.08832357078792); // استبدل بموقع المستخدم الفعلي
+            _searchNearbyPharmacies(userLocation);
+          },
+          child: Icon(
+            Icons.search,
+          ),
         ),
       ),
     );

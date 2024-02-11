@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medical_app/pages/Message.dart';
 import 'package:medical_app/pages/schedule.dart';
 import 'package:medical_app/pages/searchAi_page.dart';
 import 'package:medical_app/pages/setting_page.dart';
@@ -46,8 +47,8 @@ class _YourWidgetState extends State<YourWidget> with TickerProviderStateMixin {
       physics: NeverScrollableScrollPhysics(),
       controller: _motionTabBarController,
       children: <Widget>[
-        ImageSelectionPage(),
-        HomePage(),
+        ChatScreen(),
+        const HomePage(),
         SchedulePage(),
         SettingsPage(),
       ],
@@ -59,20 +60,20 @@ class _YourWidgetState extends State<YourWidget> with TickerProviderStateMixin {
       controller: _motionTabBarController,
       initialSelectedTab: "Home",
       labels: const [
-        "api",
+        "Messages",
         "Home",
-        "Profile",
+        "Schedule",
         "Settings",
       ],
       icons: const [
-        Icons.api,
+        Icons.message,
         Icons.home,
-        Icons.people_alt,
+        Icons.schedule,
         Icons.settings,
       ],
       badges: [
         const MotionBadgeWidget(
-            text: '', textColor: Colors.white, color: Colors.red, size: 18),
+            text: '1', textColor: Colors.white, color: Colors.red, size: 18),
         Container(
           color: Colors.black,
           padding: const EdgeInsets.all(2),
@@ -86,13 +87,13 @@ class _YourWidgetState extends State<YourWidget> with TickerProviderStateMixin {
       tabSize: 50,
       tabBarHeight: 55,
       textStyle: const TextStyle(
-          fontSize: 12, color: Colors.black, fontWeight: FontWeight.w500),
+          fontSize: 13, color: Colors.black, fontWeight: FontWeight.w500),
       tabIconColor: Colors.blue[600],
-      tabIconSize: 28.0,
+      tabIconSize: 30.0,
       tabIconSelectedSize: 26.0,
       tabSelectedColor: Colors.blue[600],
       tabIconSelectedColor: Colors.white,
-      tabBarColor: Color.fromARGB(255, 236, 231, 231),
+      tabBarColor: Color.fromARGB(255, 248, 249, 250),
       onTabItemSelected: (int value) {
         setState(() {
           _motionTabBarController!.index = value;

@@ -2,14 +2,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImageSelectionPage extends StatefulWidget {
+class AiScanning extends StatefulWidget {
   @override
-  _ImageSelectionPageState createState() => _ImageSelectionPageState();
+  _AiScanningState createState() => _AiScanningState();
 }
 
-class _ImageSelectionPageState extends State<ImageSelectionPage> {
+class _AiScanningState extends State<AiScanning> {
   File? _image;
   String? _diseaseStatus;
+  bool _isLoading = false;
 
   Future<void> _getImageFromGallery() async {
     final imagePicker = ImagePicker();
@@ -18,8 +19,16 @@ class _ImageSelectionPageState extends State<ImageSelectionPage> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        _diseaseStatus =
-            'Skin rash'; // Example default value for disease status
+        _diseaseStatus = null;
+        _isLoading = true;
+        // في الواقع يجب هنا استدعاء الخوارزمية أو API لتحليل الصورة والحصول على التشخيص
+        // هنا نفترض أنه تم الحصول على تشخيص مزيف لأغراض التوضيح
+        Future.delayed(Duration(seconds: 1), () {
+          setState(() {
+            _isLoading = false;
+            _diseaseStatus = 'Skin rash'; // تشخيص مزيف لأغراض التوضيح
+          });
+        });
       } else {
         print('No image selected.');
       }
@@ -29,20 +38,21 @@ class _ImageSelectionPageState extends State<ImageSelectionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-            image: AssetImage('assets/images/bg.jpg'), // تحديد صورة الخلفية
-            fit: BoxFit.cover, // تغطية الشاشة بالصورة
-          )),
-          child: SafeArea(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/bg.jpg'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
                   children: [
                     IconButton(
                       icon: Icon(Icons.arrow_back),
@@ -51,50 +61,79 @@ class _ImageSelectionPageState extends State<ImageSelectionPage> {
                       },
                     ),
                     Text(
-                      "Search Ai",
+                      "AI Scanning",
                       style:
                           TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
-                Spacer(
-                  flex: 1,
-                ),
-                Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(10),
+              ),
+              SizedBox(height: 20),
+              Expanded(
+                child: Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: _isLoading ? null : _getImageFromGallery,
+                        child: Container(
+                          width: 300,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: _isLoading
+                              ? CircularProgressIndicator() // عرض دائرة التحميل أثناء التحليل
+                              : (_image != null
+                                  ? Image.file(_image!, fit: BoxFit.cover)
+                                  : Icon(Icons.image,
+                                      size: 100, color: Colors.grey)),
+                        ),
+                      ),
+                      if (_isLoading)
+                        CircularProgressIndicator() // عرض دائرة التحميل على كامل الشاشة
+                      else if (_diseaseStatus != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 300),
+                          child: Container(
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              'Disease Status: $_diseaseStatus',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
-                  child: _image != null
-                      ? Image.file(_image!, fit: BoxFit.cover)
-                      : Icon(Icons.image, size: 100, color: Colors.grey),
                 ),
-                SizedBox(height: 20),
-                _diseaseStatus != null
-                    ? Text(
-                        'Disease Status: $_diseaseStatus',
-                        style: TextStyle(fontSize: 18),
-                      )
-                    : SizedBox.shrink(),
-                ElevatedButton(
-                  onPressed: _getImageFromGallery,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
+              ),
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.all(100),
+                  child: ElevatedButton(
+                    onPressed: _isLoading ? null : _getImageFromGallery,
+                    style: ElevatedButton.styleFrom(
+                      primary: Color.fromARGB(255, 69, 142, 231),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 40, vertical: 12),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
                     ),
+                    child: Text('Select Image', style: TextStyle(fontSize: 20)),
                   ),
-                  child: Text('Select Image', style: TextStyle(fontSize: 18)),
                 ),
-                Spacer(
-                  flex: 1,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
